@@ -1,7 +1,8 @@
 public class main {
 
 	public static void main(String[] args) {
-		Window w = new Window("EUMPLOOP");
+		MyWindow w = new MyWindow("EUMPLOOP");
+		System.out.println("Success!");
 	}
 
 }
