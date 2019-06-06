@@ -1,23 +1,22 @@
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class EClass {
 	private String name;
 	private EClass parentClass;
 	private EClass[] childClasses;
-	private Object classType;
-	private Method[] methods;
-	private Field[] fields;
+	private ArrayList<Field> fields = new ArrayList<Field>();
+	private ArrayList<Method> methods = new ArrayList<Method>();
 	
 	
-	public EClass(String name, EClass parentClass, EClass[] childClasses, Object classType,
-				  Method[] methods, Field[] fields) {
+	public EClass(String name, EClass parentClass, EClass[] childClasses, 
+				  ArrayList<Field> fields, ArrayList<Method> methods) {
 		this.setName(name);
 		this.setParentClass(parentClass);
 		this.setChildClasses(childClasses);
-		this.setClassType(classType);
-		this.setMethods(methods);
 		this.setFields(fields);
+		this.setMethods(methods);
 	}
 
 	public String getName() {
@@ -50,32 +49,19 @@ public class EClass {
 	}
 
 
-	public Object getClassType() {
-		return classType;
-	}
-
-
-	public void setClassType(Object classType) {
-		this.classType = classType;
-	}
-
-
-	public Method[] getMethods() {
+	public ArrayList<Method> getMethods() {
 		return methods;
 	}
 
-
-	public void setMethods(Method[] methods) {
+	public void setMethods(ArrayList<Method> methods) {
 		this.methods = methods;
 	}
 
-
-	public Field[] getFields() {
+	public ArrayList<Field> getFields() {
 		return fields;
 	}
 
-
-	public void setFields(Field[] fields) {
+	public void setFields(ArrayList<Field> fields) {
 		this.fields = fields;
 	}
 }

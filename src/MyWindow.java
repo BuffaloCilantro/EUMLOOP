@@ -1,25 +1,33 @@
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
+import javax.swing.*;
+import java.util.*;
 
 public class MyWindow extends JFrame{
 		JMenuBar mBar = new JMenuBar();
-		JMenu editClasses = new JMenu("Edit");
+		JMenu option = new JMenu("Options");
+		JMenuItem newClass = new JMenuItem("New Class");
 		HashMap<String, EClass> hMap = new HashMap<>();
-		JButton button = new JButton("Edit");
 		
 	public MyWindow(String title) {
 		super(title);
 		setSize(800, 600);
 		setVisible(true);
 		setLocationRelativeTo(null);
-		mBar.setBackground(Color.RED);
-		mBar.add(button);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		newClass.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		option.add(newClass);
+		mBar.add(option);
 		setJMenuBar(mBar);
+		
 		setVisible(true);
 	}
 }
