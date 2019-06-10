@@ -7,11 +7,11 @@ public class EClass {
 	private EClass parentClass;
 	private EClass[] childClasses;
 	private ArrayList<Field> fields = new ArrayList<Field>();
-	private ArrayList<Method> methods = new ArrayList<Method>();
+	private ArrayList<EMethod> methods = new ArrayList<EMethod>();
 	
 	
 	public EClass(String name, EClass parentClass, EClass[] childClasses, 
-				  ArrayList<Field> fields, ArrayList<Method> methods) {
+				  ArrayList<Field> fields, ArrayList<EMethod> methods) {
 		this.setName(name);
 		this.setParentClass(parentClass);
 		this.setChildClasses(childClasses);
@@ -49,11 +49,11 @@ public class EClass {
 	}
 
 
-	public ArrayList<Method> getMethods() {
+	public ArrayList<EMethod> getMethods() {
 		return methods;
 	}
 
-	public void setMethods(ArrayList<Method> methods) {
+	public void setMethods(ArrayList<EMethod> methods) {
 		this.methods = methods;
 	}
 

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -7,11 +8,11 @@ import javax.swing.*;
 import java.util.*;
 
 public class MyWindow extends JFrame{
-		JMenuBar mBar = new JMenuBar();
-		JMenu option = new JMenu("Options");
-		JMenuItem newClass = new JMenuItem("New Class");
-		HashMap<String, EClass> hMap = new HashMap<>();
-		
+		private JMenuBar mBar = new JMenuBar();
+		private JMenu option = new JMenu("Options");
+		private JMenuItem newClass = new JMenuItem("New Class");
+		private HashMap<String, EClass> hMap = new HashMap<>();
+		//NewEClass newClass = new NewEClass("New Class", hMap);
 		
 	public MyWindow(String title) {
 		super(title);
@@ -22,12 +23,34 @@ public class MyWindow extends JFrame{
 		newClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JPanel prompt = new JPanel();
-				
+				BoxLayout bl = new BoxLayout(prompt, 0);
+				prompt.setLayout(bl);
+				DefaultListModel dlm = new DefaultListModel();
 				JTextField nameField = new JTextField(7);
 				JTextField parentClassField = new JTextField(7);
 				//ArrayList of Children classes
-				//ArrayList of Methods
+				JButton createMethod = new JButton("New Method");
 				//ArrayList of Fields
+				
+				createMethod.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (e.getSource() == createMethod) {
+							System.out.println("I Did it!");
+							EMethod m = new EMethod();
+							JDialog jd = new JDialog();
+							jd.setAlwaysOnTop(true);
+							String mName = JOptionPane.showInputDialog(jd, "Method Name?");
+							m.setName(mName);
+							String mParams = JOptionPane.showInputDialog(jd,"Parameters (enter like this: type name, type name...)?");
+							enterKeys(mParams, m.getParams());
+							String mReturnType = JOptionPane.showInputDialog(jd, "Return Type?");
+							m.setReturnType(mReturnType);
+							
+							dlm.addElement(mName);
+							
+						}
+					}
+				});
 				
 				ArrayList<String> classNames = new ArrayList<String>();
 				Set<String> keys = hMap.keySet();
@@ -39,6 +62,10 @@ public class MyWindow extends JFrame{
 				prompt.add(nameField);
 				prompt.add(new JLabel("Parent Class: "));
 				prompt.add(parentClassField);
+				prompt.add(createMethod);
+				JList jl = new JList(dlm);
+				prompt.add(new JLabel("Methods:"));
+				prompt.add(jl);
 				
 				if (e.getSource() == newClass) {
 					JOptionPane.showConfirmDialog(null, prompt, "New Class", JOptionPane.OK_CANCEL_OPTION);
@@ -60,5 +87,18 @@ public class MyWindow extends JFrame{
 		option.add(newClass);
 		mBar.add(option);
 		setJMenuBar(mBar);
+	}
+	
+	public HashMap<String, String> enterKeys(String raw, HashMap<String, String> hMapP) {
+		String[] s = raw.split(",");
+		String key;
+		String value;
+		int indexOfSpace;
+		for (int i = 0; i < s.length; i++) {
+			indexOfSpace = s[i].indexOf(" ");
+			hMapP.put(s[i].substring(0, indexOfSpace), s[i].substring(++indexOfSpace, s[i].length()));
+		}
+		return null;
+		
 	}
 }
