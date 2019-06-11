@@ -41,8 +41,9 @@ public class MyWindow extends JFrame{
 							jd.setAlwaysOnTop(true);
 							String mName = JOptionPane.showInputDialog(jd, "Method Name?");
 							m.setName(mName);
-							String mParams = JOptionPane.showInputDialog(jd,"Parameters (enter like this: type name, type name...)?");
+							String mParams = JOptionPane.showInputDialog(jd,"Parameters (enter like this: type1 name1, type2 name2...)?");
 							enterKeys(mParams, m.getParams());
+							//make popup for invalid params
 							String mReturnType = JOptionPane.showInputDialog(jd, "Return Type?");
 							m.setReturnType(mReturnType);
 							
@@ -64,8 +65,9 @@ public class MyWindow extends JFrame{
 				prompt.add(parentClassField);
 				prompt.add(createMethod);
 				JList jl = new JList(dlm);
+				JScrollPane methods = new JScrollPane(jl);
 				prompt.add(new JLabel("Methods:"));
-				prompt.add(jl);
+				prompt.add(methods);
 				
 				if (e.getSource() == newClass) {
 					JOptionPane.showConfirmDialog(null, prompt, "New Class", JOptionPane.OK_CANCEL_OPTION);
@@ -89,16 +91,12 @@ public class MyWindow extends JFrame{
 		setJMenuBar(mBar);
 	}
 	
-	public HashMap<String, String> enterKeys(String raw, HashMap<String, String> hMapP) {
+	public void enterKeys(String raw, HashMap<String, String> hMapP) {
 		String[] s = raw.split(",");
-		String key;
-		String value;
 		int indexOfSpace;
 		for (int i = 0; i < s.length; i++) {
 			indexOfSpace = s[i].indexOf(" ");
 			hMapP.put(s[i].substring(0, indexOfSpace), s[i].substring(++indexOfSpace, s[i].length()));
 		}
-		return null;
-		
 	}
 }
