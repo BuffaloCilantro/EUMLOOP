@@ -1,6 +1,8 @@
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 
-public class EMethod {
+public class EMethod implements MouseListener{
 	private String name;
 	private HashMap<String, String> params= new HashMap<String, String>();
 	private String returnType;
@@ -29,6 +31,38 @@ public class EMethod {
 	}
 	public void setFunctionDescrip(String functionDescrip) {
 		this.functionDescrip = functionDescrip;
+	}
+	
+	public String toString() {
+		return name;
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		System.out.println("asds");
+		if (e.getSource() == this) {
+			System.out.println("Boo!");
+		}
+		
 	}
 	
 }

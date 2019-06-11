@@ -2,7 +2,10 @@ import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.lang.reflect.Field;
 
 import javax.swing.*;
 import java.util.*;
@@ -12,6 +15,8 @@ public class MyWindow extends JFrame{
 		private JMenu option = new JMenu("Options");
 		private JMenuItem newClass = new JMenuItem("New Class");
 		private HashMap<String, EClass> hMap = new HashMap<>();
+		private DefaultListModel dlm = new DefaultListModel();
+		private JList jl;
 		//NewEClass newClass = new NewEClass("New Class", hMap);
 		
 	public MyWindow(String title) {
@@ -25,7 +30,6 @@ public class MyWindow extends JFrame{
 				JPanel prompt = new JPanel();
 				BoxLayout bl = new BoxLayout(prompt, 0);
 				prompt.setLayout(bl);
-				DefaultListModel dlm = new DefaultListModel();
 				JTextField nameField = new JTextField(7);
 				JTextField parentClassField = new JTextField(7);
 				//ArrayList of Children classes
@@ -35,20 +39,23 @@ public class MyWindow extends JFrame{
 				createMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (e.getSource() == createMethod) {
-							System.out.println("I Did it!");
-							EMethod m = new EMethod();
+							EMethod method = new EMethod();
 							JDialog jd = new JDialog();
 							jd.setAlwaysOnTop(true);
-							String mName = JOptionPane.showInputDialog(jd, "Method Name?");
-							m.setName(mName);
-							String mParams = JOptionPane.showInputDialog(jd,"Parameters (enter like this: type1 name1, type2 name2...)?");
-							enterKeys(mParams, m.getParams());
-							//make popup for invalid params
+							String methodName = JOptionPane.showInputDialog(jd, "Method Name?");
+							method.setName(methodName);
+							String methodParams = JOptionPane.showInputDialog(jd,"Parameters (enter like this: type1 name1, type2 name2...)?");
+							boolean working = enterKeys(methodParams, method.getParams());
+							if (!working) {
+								JOptionPane.showMessageDialog(jd,"Parameters inputed incorrectly!", "Error!", JOptionPane.ERROR_MESSAGE);
+								return;
+							}
 							String mReturnType = JOptionPane.showInputDialog(jd, "Return Type?");
-							m.setReturnType(mReturnType);
-							
-							dlm.addElement(mName);
-							
+							method.setReturnType(mReturnType);
+							//EClass mClass = new EClass(String name, EClass parentClass, EClass[] childClasses, 
+							//		  ArrayList<Field> fields, ArrayList<EMethod> methods);
+							//add ActionListeners to all ms
+							dlm.addElement(method);
 						}
 					}
 				});
@@ -64,7 +71,16 @@ public class MyWindow extends JFrame{
 				prompt.add(new JLabel("Parent Class: "));
 				prompt.add(parentClassField);
 				prompt.add(createMethod);
-				JList jl = new JList(dlm);
+				jl = new JList(dlm);
+				MouseListener mouseListener = new  MouseAdapter() {
+				    public void mouseClicked(MouseEvent e) {
+				        if (e.getClickCount() == 2) {
+				        	EMethod selectedEMethod = (EMethod) jl.getSelectedValue();
+				        	System.out.println(selectedEMethod);
+				        }
+				    }
+				};
+				jl.addMouseListener(mouseListener);
 				JScrollPane methods = new JScrollPane(jl);
 				prompt.add(new JLabel("Methods:"));
 				prompt.add(methods);
@@ -85,18 +101,48 @@ public class MyWindow extends JFrame{
 				}
 			}
 		});
-		System.out.println("checkout3");
 		option.add(newClass);
 		mBar.add(option);
 		setJMenuBar(mBar);
 	}
 	
-	public void enterKeys(String raw, HashMap<String, String> hMapP) {
-		String[] s = raw.split(",");
-		int indexOfSpace;
-		for (int i = 0; i < s.length; i++) {
-			indexOfSpace = s[i].indexOf(" ");
-			hMapP.put(s[i].substring(0, indexOfSpace), s[i].substring(++indexOfSpace, s[i].length()));
+	public boolean enterKeys(String raw, HashMap<String, String> hMapP) {
+		
+		try {
+			String[] s = raw.split(",");
+			int indexOfSpace;
+			for (int i = 0; i < s.length; i++) {
+				indexOfSpace = s[i].indexOf(" ");
+				hMapP.put(s[i].substring(0, indexOfSpace), s[i].substring(++indexOfSpace, s[i].length()));
+			}
+			return true;
+		} catch (StringIndexOutOfBoundsException e) {
+			return false;
 		}
 	}
+	
+//	public boolean verifyDataType(String dataType) {
+//		if (dataType.toLowerCase().equals("string")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("int")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("double")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("long")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("scanner")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("string")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("string")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("string")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("string")) {
+//			return true;
+//		} else if (dataType.toLowerCase().equals("string")) {
+//			return true;
+//		}
+//		return false;
+//	}
 }
