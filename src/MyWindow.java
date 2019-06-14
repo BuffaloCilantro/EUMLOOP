@@ -14,10 +14,9 @@ public class MyWindow extends JFrame{
 		private JMenuBar mBar = new JMenuBar();
 		private JMenu option = new JMenu("Options");
 		private JMenuItem newClass = new JMenuItem("New Class");
-		private HashMap<String, EClass> hMap = new HashMap<>();
+		private HashMap<String, EClass> hMapEClass= new HashMap<>();
 		private DefaultListModel dlm = new DefaultListModel();
 		private JList jl;
-		//NewEClass newClass = new NewEClass("New Class", hMap);
 		
 	public MyWindow(String title) {
 		super(title);
@@ -25,6 +24,8 @@ public class MyWindow extends JFrame{
 		setVisible(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
 		newClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JPanel prompt = new JPanel();
@@ -45,23 +46,23 @@ public class MyWindow extends JFrame{
 							String methodName = JOptionPane.showInputDialog(jd, "Method Name?");
 							method.setName(methodName);
 							String methodParams = JOptionPane.showInputDialog(jd,"Parameters (enter like this: type1 name1, type2 name2...)?");
-							boolean working = enterKeys(methodParams, method.getParams());
+							HashMap hMapMethodParams = new HashMap<String, String>();
+							boolean working = enterKeys(methodParams, hMapMethodParams);
 							if (!working) {
 								JOptionPane.showMessageDialog(jd,"Parameters inputed incorrectly!", "Error!", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
+							method.setParams(hMapMethodParams);
 							String mReturnType = JOptionPane.showInputDialog(jd, "Return Type?");
 							method.setReturnType(mReturnType);
-							//EClass mClass = new EClass(String name, EClass parentClass, EClass[] childClasses, 
-							//		  ArrayList<Field> fields, ArrayList<EMethod> methods);
-							//add ActionListeners to all ms
+							String description = JOptionPane.showInputDialog(jd, "What does this method do?");
 							dlm.addElement(method);
 						}
 					}
 				});
 				
 				ArrayList<String> classNames = new ArrayList<String>();
-				Set<String> keys = hMap.keySet();
+				Set<String> keys = hMapEClass.keySet();
 				for (String key: keys) {
 					classNames.add(key);
 				}
@@ -76,6 +77,7 @@ public class MyWindow extends JFrame{
 				    public void mouseClicked(MouseEvent e) {
 				        if (e.getClickCount() == 2) {
 				        	EMethod selectedEMethod = (EMethod) jl.getSelectedValue();
+				        	JOptionPane.showMessageDialog(prompt, selectedEMethod.getFunctionDescrip(), selectedEMethod.getName(), JOptionPane.OK_OPTION);
 				        	System.out.println(selectedEMethod);
 				        }
 				    }
@@ -120,29 +122,4 @@ public class MyWindow extends JFrame{
 			return false;
 		}
 	}
-	
-//	public boolean verifyDataType(String dataType) {
-//		if (dataType.toLowerCase().equals("string")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("int")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("double")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("long")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("scanner")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("string")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("string")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("string")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("string")) {
-//			return true;
-//		} else if (dataType.toLowerCase().equals("string")) {
-//			return true;
-//		}
-//		return false;
-//	}
 }

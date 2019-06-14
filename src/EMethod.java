@@ -2,7 +2,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 
-public class EMethod implements MouseListener{
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+public class EMethod {
 	private String name;
 	private HashMap<String, String> params= new HashMap<String, String>();
 	private String returnType;
@@ -36,33 +40,4 @@ public class EMethod implements MouseListener{
 	public String toString() {
 		return name;
 	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		System.out.println("asds");
-		if (e.getSource() == this) {
-			System.out.println("Boo!");
-		}
-		
-	}
-	
 }
