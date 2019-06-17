@@ -56,6 +56,7 @@ public class MyWindow extends JFrame{
 							String mReturnType = JOptionPane.showInputDialog(jd, "Return Type?");
 							method.setReturnType(mReturnType);
 							String description = JOptionPane.showInputDialog(jd, "What does this method do?");
+							method.setFunctionDescrip(description);
 							dlm.addElement(method);
 						}
 					}
@@ -77,6 +78,7 @@ public class MyWindow extends JFrame{
 				    public void mouseClicked(MouseEvent e) {
 				        if (e.getClickCount() == 2) {
 				        	EMethod selectedEMethod = (EMethod) jl.getSelectedValue();
+				        	//add JPanel for mesg
 				        	JOptionPane.showMessageDialog(prompt, selectedEMethod.getFunctionDescrip(), selectedEMethod.getName(), JOptionPane.OK_OPTION);
 				        	System.out.println(selectedEMethod);
 				        }
