@@ -19,6 +19,7 @@ public class MyWindow extends JFrame{
 		private HashMap<String, EClass> hMapEClass= new HashMap<>();
 		private DefaultListModel dlmMethods = new DefaultListModel();
 		private DefaultListModel dlmFields = new DefaultListModel();
+		private JDialog jd = new JDialog();
 		
 	public MyWindow(String title) {
 		super(title);
@@ -45,9 +46,8 @@ public class MyWindow extends JFrame{
 					public void actionPerformed(ActionEvent e) {
 						if (e.getSource() == createMethod) {
 							EMethod method = new EMethod();
-							JDialog jd = new JDialog();
 							jd.setAlwaysOnTop(true);
-							String methodName = JOptionPane.showInputDialog(jd, "Method Name?");
+							String methodName = JOptionPane.showInputDialog(jd, "Method name?");
 							method.setName(methodName);
 							String methodParams = JOptionPane.showInputDialog(jd,"Parameters (enter like this: type1 name1, type2 name2...)?");
 							HashMap hMapMethodParams = new HashMap<String, String>();
@@ -57,7 +57,7 @@ public class MyWindow extends JFrame{
 								return;
 							}
 							method.setParams(hMapMethodParams);
-							String mReturnType = JOptionPane.showInputDialog(jd, "Return Type?");
+							String mReturnType = JOptionPane.showInputDialog(jd, "Return type?");
 							method.setReturnType(mReturnType);
 							String description = JOptionPane.showInputDialog(jd, "What does this method do?");
 							method.setFunctionDescrip(description);
@@ -69,7 +69,8 @@ public class MyWindow extends JFrame{
 				addField.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (e.getSource() == addField) {
-							
+							String fieldType = JOptionPane.showInputDialog(jd, "Field type?");
+							String fieldName = JOptionPane.showInputDialog(jd, "Field name?");
 						}
 					}
 				});
