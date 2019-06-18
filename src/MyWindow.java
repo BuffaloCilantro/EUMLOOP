@@ -19,6 +19,7 @@ public class MyWindow extends JFrame{
 		private HashMap<String, EClass> hMapEClass= new HashMap<>();
 		private DefaultListModel dlmMethods = new DefaultListModel();
 		private DefaultListModel dlmFields = new DefaultListModel();
+		private DefaultListModel dlmEClasses = new DefaultListModel();
 		private JDialog jd = new JDialog();
 		
 	public MyWindow(String title) {
@@ -31,12 +32,11 @@ public class MyWindow extends JFrame{
 		
 		newClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				jd.setAlwaysOnTop(true);
 				JPanel prompt = new JPanel();
-				BoxLayout bl = new BoxLayout(prompt, 0);
-				prompt.setLayout(bl);
+				prompt.setLayout(new BoxLayout(prompt, BoxLayout.PAGE_AXIS));
 				JTextField nameField = new JTextField(7);
-				JTextField parentClassField = new JTextField(7);
-				JList fields = new JList();
+//				JTextField parentClassField = new JTextField(7);
 				//ArrayList of Children classes
 				JButton createMethod = new JButton("New Method");
 				JButton addField = new JButton("New Field");
@@ -46,7 +46,6 @@ public class MyWindow extends JFrame{
 					public void actionPerformed(ActionEvent e) {
 						if (e.getSource() == createMethod) {
 							EMethod method = new EMethod();
-							jd.setAlwaysOnTop(true);
 							String methodName = JOptionPane.showInputDialog(jd, "Method name?");
 							method.setName(methodName);
 							String methodParams = JOptionPane.showInputDialog(jd,"Parameters (enter like this: type1 name1, type2 name2...)?");
@@ -69,8 +68,8 @@ public class MyWindow extends JFrame{
 				addField.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (e.getSource() == addField) {
-							String fieldType = JOptionPane.showInputDialog(jd, "Field type?");
-							String fieldName = JOptionPane.showInputDialog(jd, "Field name?");
+							String fieldInfo = JOptionPane.showInputDialog(jd, "Field type and name?");
+							dlmFields.addElement(fieldInfo);
 						}
 					}
 				});
@@ -79,17 +78,43 @@ public class MyWindow extends JFrame{
 				Set<String> keys = hMapEClass.keySet();
 				for (String key: keys) {
 					classNames.add(key);
+					dlmEClasses.addElement(key);
 				}
-				
+				JList listEClasses = new JList(dlmEClasses);
+				MouseListener mouseListenerECLasses = new MouseAdapter() {
+					public void mouseClicked(MouseEvent e ) {
+						if (e.getClickCount() == 1) {
+							String selectedEClassKey = (String) listEClasses.getSelectedValue();
+							//set parent class
+						}
+					}
+				};
+				JScrollPane scrollEClasses = new JScrollPane(listEClasses);
 				prompt.add(new JLabel("Class Name: "));
 				prompt.add(nameField);
 				prompt.add(new JLabel("Parent Class: "));
-				prompt.add(parentClassField);
+				prompt.add(scrollEClasses);
+				prompt.add(addField);
+				JList fields = new JList(dlmFields);
+				MouseListener mouseListenerFields = new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if (e.getClickCount() == 2) {
+							String selectedField = (String) fields.getSelectedValue();
+							int delete = JOptionPane.showConfirmDialog(prompt, "Delete this field?");
+							int index = dlmFields.indexOf(selectedField);
+							if (delete == JOptionPane.OK_OPTION) {
+								dlmFields.removeElementAt(index);
+							}
+						}
+					}
+				};
+				fields.addMouseListener(mouseListenerFields);
+				JScrollPane fieldsScroll = new JScrollPane(fields);
 				prompt.add(new JLabel("Fields: "));
-				prompt.add(fields);
+				prompt.add(fieldsScroll);
 				prompt.add(createMethod);
 				JList jlEMethods = new JList(dlmMethods);
-				MouseListener mouseListener = new  MouseAdapter() {
+				MouseListener mouseListenerEMethods = new  MouseAdapter() {
 				    public void mouseClicked(MouseEvent e) {
 				        if (e.getClickCount() == 2) {
 				        	EMethod selectedEMethod = (EMethod) jlEMethods.getSelectedValue();
@@ -103,7 +128,7 @@ public class MyWindow extends JFrame{
 				        }
 				    }
 				};
-				jlEMethods.addMouseListener(mouseListener);
+				jlEMethods.addMouseListener(mouseListenerEMethods);
 				JScrollPane methods = new JScrollPane(jlEMethods);
 				prompt.add(new JLabel("Methods:"));
 				prompt.add(methods);
@@ -112,6 +137,7 @@ public class MyWindow extends JFrame{
 					JOptionPane.showConfirmDialog(null, prompt, "New Class", JOptionPane.OK_CANCEL_OPTION);
 				}
 				boolean noDups = true;
+				/*
 				for (int i = 0; i < classNames.size(); i++) {
 					if (classNames.get(i).equals(parentClassField.getText())) {
 						JOptionPane.showMessageDialog(null, "A class with the same name already exist.", "Error", JOptionPane.QUESTION_MESSAGE);
@@ -122,6 +148,7 @@ public class MyWindow extends JFrame{
 					//
 					//EClass ec = new EClass(nameField.getText(), );
 				}
+				*/
 			}
 		});
 		option.add(newClass);
