@@ -5,16 +5,17 @@ import java.util.ArrayList;
 public class EClass {
 	private String name;
 	private EClass parentClass;
-	private EClass[] childClasses;
+//	private EClass[] childClasses;
 	private ArrayList<Field> fields = new ArrayList<Field>();
 	private ArrayList<EMethod> methods = new ArrayList<EMethod>();
 	
 	
-	public EClass(String name, EClass parentClass, EClass[] childClasses, 
+	public EClass(String name, EClass parentClass, 
+//				  EClass[] childClasses, 
 				  ArrayList<Field> fields, ArrayList<EMethod> methods) {
 		this.setName(name);
 		this.setParentClass(parentClass);
-		this.setChildClasses(childClasses);
+//		this.setChildClasses(childClasses);
 		this.setFields(fields);
 		this.setMethods(methods);
 	}
@@ -39,14 +40,14 @@ public class EClass {
 	}
 
 
-	public EClass[] getChildClasses() {
-		return childClasses;
-	}
-
-
-	public void setChildClasses(EClass[] childClasses) {
-		this.childClasses = childClasses;
-	}
+//	public EClass[] getChildClasses() {
+//		return childClasses;
+//	}
+//
+//
+//	public void setChildClasses(EClass[] childClasses) {
+//		this.childClasses = childClasses;
+//	}
 
 
 	public ArrayList<EMethod> getMethods() {

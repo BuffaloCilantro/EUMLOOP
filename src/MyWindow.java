@@ -36,11 +36,8 @@ public class MyWindow extends JFrame{
 				JPanel prompt = new JPanel();
 				prompt.setLayout(new BoxLayout(prompt, BoxLayout.PAGE_AXIS));
 				JTextField nameField = new JTextField(7);
-//				JTextField parentClassField = new JTextField(7);
-				//ArrayList of Children classes
 				JButton createMethod = new JButton("New Method");
 				JButton addField = new JButton("New Field");
-				//ArrayList of Fields
 				
 				createMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
