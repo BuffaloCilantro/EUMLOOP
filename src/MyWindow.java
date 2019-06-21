@@ -16,10 +16,10 @@ public class MyWindow extends JFrame{
 		private JMenuBar mBar = new JMenuBar();
 		private JMenu option = new JMenu("Options");
 		private JMenuItem newClass = new JMenuItem("New Class");
-		private HashMap<String, EClass> hMapEClass= new HashMap<>();
-		private DefaultListModel dlmMethods = new DefaultListModel();
-		private DefaultListModel dlmFields = new DefaultListModel();
-		private DefaultListModel dlmEClasses = new DefaultListModel();
+		//private HashMap<String, EClass> hMapEClass= new HashMap<>();
+		private DefaultListModel dlmMethods = new DefaultListModel<EMethod>();
+		private DefaultListModel dlmFields = new DefaultListModel<EField>();
+		private DefaultListModel dlmEClasses = new DefaultListModel<EClass>();
 		private JDialog jd = new JDialog();
 		
 	public MyWindow(String title) {
@@ -65,18 +65,14 @@ public class MyWindow extends JFrame{
 				addField.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (e.getSource() == addField) {
-							String fieldInfo = JOptionPane.showInputDialog(jd, "Field type and name?");
-							dlmFields.addElement(fieldInfo);
+							String fieldType = JOptionPane.showInputDialog(jd, "Field type?");
+							String fieldName = JOptionPane.showInputDialog(jd, "Field name?");
+							EField ef = new EField(fieldType, fieldName);
+							dlmFields.addElement(ef);
 						}
 					}
 				});
 				
-				ArrayList<String> classNames = new ArrayList<String>();
-				Set<String> keys = hMapEClass.keySet();
-				for (String key: keys) {
-					classNames.add(key);
-					dlmEClasses.addElement(key);
-				}
 				JList listEClasses = new JList(dlmEClasses);
 				MouseListener mouseListenerECLasses = new MouseAdapter() {
 					public void mouseClicked(MouseEvent e ) {
@@ -96,9 +92,10 @@ public class MyWindow extends JFrame{
 				MouseListener mouseListenerFields = new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
 						if (e.getClickCount() == 2) {
-							String selectedField = (String) fields.getSelectedValue();
+							EField eff = (EField) fields.getSelectedValue();
+							//String selectedField = eff.name + " ";
 							int delete = JOptionPane.showConfirmDialog(prompt, "Delete this field?");
-							int index = dlmFields.indexOf(selectedField);
+							int index = dlmFields.indexOf(eff);
 							if (delete == JOptionPane.OK_OPTION) {
 								dlmFields.removeElementAt(index);
 							}
@@ -130,20 +127,44 @@ public class MyWindow extends JFrame{
 				prompt.add(new JLabel("Methods:"));
 				prompt.add(methods);
 				
+				
 				if (e.getSource() == newClass) {
-					JOptionPane.showConfirmDialog(null, prompt, "New Class", JOptionPane.OK_CANCEL_OPTION);
-				}
-				boolean noDups = true;
-				/*
-				for (int i = 0; i < classNames.size(); i++) {
-					if (classNames.get(i).equals(parentClassField.getText())) {
-						JOptionPane.showMessageDialog(null, "A class with the same name already exist.", "Error", JOptionPane.QUESTION_MESSAGE);
+					int result = JOptionPane.showConfirmDialog(null, prompt, "New Class", JOptionPane.OK_CANCEL_OPTION);
+					if (result == JOptionPane.OK_OPTION) {
+						ArrayList<EField> listFields = new ArrayList<EField>();
+						for (int i = 0; i < fields.getModel().getSize(); i++) {
+							listFields.add((EField)fields.getModel().getElementAt(i));
+						}
+						
+						ArrayList<EMethod> listMethods = new ArrayList<EMethod>();
+						for (int i = 0; i < jlEMethods.getModel().getSize(); i++) {
+							listMethods.add((EMethod)jlEMethods.getModel().getElementAt(i));
+						}
+						EClass ec = new EClass(nameField.getText(), listFields, listMethods);
+						dlmEClasses.addElement(ec);
 					}
 				}
+				/*
+				boolean noDups = true;
+				
+//				for (int i = 0; i < classNames.size(); i++) {
+//					if (classNames.get(i).equals(parentClassField.getText())) {
+//						JOptionPane.showMessageDialog(null, "A class with the same name already exist.", "Error", JOptionPane.QUESTION_MESSAGE);
+//					}
+//				}
 				
 				if (noDups) {
-					//
-					//EClass ec = new EClass(nameField.getText(), );
+					ArrayList<EField> listFields = new ArrayList<EField>();
+					for (int i = 0; i < fields.getModel().getSize(); i++) {
+						listFields.add((EField)jlEMethods.getModel().getElementAt(i));
+					}
+					
+					ArrayList<EMethod> listMethods = new ArrayList<EMethod>();
+					for (int i = 0; i < jlEMethods.getModel().getSize(); i++) {
+						listMethods.add((EMethod)jlEMethods.getModel().getElementAt(i));
+					}
+					EClass ec = new EClass(nameField.getText(), listFields, listMethods);
+					dlmEClasses.addElement(ec);
 				}
 				*/
 			}

@@ -6,20 +6,28 @@ public class EClass {
 	private String name;
 	private EClass parentClass;
 //	private EClass[] childClasses;
-	private ArrayList<Field> fields = new ArrayList<Field>();
+	private ArrayList<EField> fields = new ArrayList<EField>();
 	private ArrayList<EMethod> methods = new ArrayList<EMethod>();
 	
 	
 	public EClass(String name, EClass parentClass, 
 //				  EClass[] childClasses, 
-				  ArrayList<Field> fields, ArrayList<EMethod> methods) {
+				  ArrayList<EField> fields, ArrayList<EMethod> methods) {
 		this.setName(name);
 		this.setParentClass(parentClass);
 //		this.setChildClasses(childClasses);
 		this.setFields(fields);
 		this.setMethods(methods);
 	}
-
+	
+	public EClass(String name, 
+//			  EClass[] childClasses, 
+			  ArrayList<EField> fields, ArrayList<EMethod> methods) {
+	this.setName(name);
+//	this.setChildClasses(childClasses);
+	this.setFields(fields);
+	this.setMethods(methods);
+}
 	public String getName() {
 		return name;
 	}
@@ -58,11 +66,11 @@ public class EClass {
 		this.methods = methods;
 	}
 
-	public ArrayList<Field> getFields() {
+	public ArrayList<EField> getFields() {
 		return fields;
 	}
 
-	public void setFields(ArrayList<Field> fields) {
+	public void setFields(ArrayList<EField> fields) {
 		this.fields = fields;
 	}
 }
