@@ -1,3 +1,13 @@
+/**
+ * EMethod.java
+ * Assignment: Final Project
+ * Purpose: method class for my class class(EClass). this practices a new concept I learned 
+ * 			myself: hashmaps. 
+ * 
+ * @version 06/27/19 
+ * 
+ */
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
